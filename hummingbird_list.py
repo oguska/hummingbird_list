@@ -15,7 +15,7 @@ from flexget.utils.cached_input import cached
 class HummingbirdList(object):
     """Creates an entry for each item in your hummingbird.me list.
     Syntax:
-    trakt_list:
+    hummingbird_list:
       username: <value>
       type: <shows|movies|all>
       list: <currently-watching|plan-to-watch|completed|on-hold|dropped|all>
