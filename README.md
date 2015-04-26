@@ -1,5 +1,7 @@
 # hummingbird_list
-Creates a [flexget](http://flexget.com) entry for each item in your hummingbird.me list.
+   Creates a [flexget](http://flexget.com) entry for each item in your hummingbird.me list.
+   
+   Place `hummingbird_list.py` in `./flexget/plugins/`
 
    Syntax:
    ```
@@ -11,9 +13,9 @@ Creates a [flexget](http://flexget.com) entry for each item in your hummingbird.
      currentonly: <yes|no>
    ```
      
-   - Choosing shows will accept anything that's not a movie(TV, OVAs, ONAs, specials, etc.)
-   - Enabling latest will emit entries for the latest episode you have watched, as opposed to emitting shows
-   - Enabling currentonly will reject items that are shows(not movies) and also are not currently airing (I recommend keeping this enabled because I haven't tested it disabled)
+   - Choosing `shows` will accept anything that's not a `movie`(TV, OVAs, ONAs, specials, etc.)
+   - Enabling `latest` will emit entries for the latest episode you have watched, as opposed to emitting shows
+   - Enabling `currentonly` will reject items that are `shows`(not `movies`) and also are not currently airing (I recommend keeping this enabled because I haven't tested it disabled)
    
    Here's my current setup:
    ```
