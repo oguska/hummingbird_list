@@ -11,19 +11,16 @@ from flexget.entry import Entry
 from flexget.event import event
 from flexget.utils.cached_input import cached
 
-log = logging.getLogger('hummingbird_list')
+log = logging.getLogger('hummingbird_movies')
 
-class HummingbirdList(object):
+class HummingbirdMovies(object):
     """Creates an entry for each item in your hummingbird.me list.
     Syntax:
-    hummingbird_list:
+    hummingbird_movies:
       username: <value>
       lists: 
       	- <currently-watching|plan-to-watch|completed|on-hold|dropped>
       	- <currently-watching|plan-to-watch|completed|on-hold|dropped>
-      latest: <yes|no>
-      currentonly: <yes|no>
-      finishedonly: <yes|no>
     """
 
     schema = {
@@ -31,15 +28,12 @@ class HummingbirdList(object):
         'properties': {
             'username': {'type': 'string'},
             'lists': {'type': 'array', 'items': {'type': 'string'}},
-            'latest': {'type': 'boolean', 'default': False},
-            'currentonly': {'type': 'boolean', 'default': False},
-            'finishedonly': {'type': 'boolean', 'default': False}
         },
         'required': ['username'],
         'additionalProperties': False,
     }
 
-    @cached('hummingbird_list', persist='2 hours')
+    @cached('hummingbird_movies', persist='2 hours')
     def on_task_input(self, task, config):
 
         url = "http://hummingbird.me/api/v1/users/%s/library" % (config['username'])
@@ -56,20 +50,12 @@ class HummingbirdList(object):
         for item in data:
             if item['status'] not in chosen_lists:
                 continue
-            if item['anime']['show_type'] == 'Movie':
-                continue
-            if config.get('currentonly') and item['anime']['status'] != 'Currently Airing':
-                continue
-            if config.get('finishedonly') and item['anime']['status'] != 'Finished Airing':
-                continue    
+            if item['anime']['show_type'] != 'Movie':
+                continue 
             entry = Entry()
             entry['title'] = item['anime']['title']
             entry['url'] = ''
             if entry.isvalid():
-                if config.get('latest'):
-                    entry['series_episode'] = item['episodes_watched']
-                    entry['series_id_type'] = 'sequence'
-                    entry['title'] += ' ' + str(entry['series_episode'])
                 entries.append(entry)
 
         return entries
@@ -77,4 +63,4 @@ class HummingbirdList(object):
 
 @event('plugin.register')
 def register_plugin():
-    plugin.register(HummingbirdList, 'hummingbird_list', api_ver=2)
+    plugin.register(HummingbirdMovies, 'hummingbird_movies', api_ver=2)
