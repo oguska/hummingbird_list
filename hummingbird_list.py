@@ -2,7 +2,8 @@ from __future__ import unicode_literals, division, absolute_import
 import logging
 import re
 import json
-import urllib2
+import urllib.request as urllib2
+import requests
 
 from requests import RequestException
 
@@ -44,7 +45,7 @@ class HummingbirdList(object):
 
         url = "http://hummingbird.me/api/v1/users/%s/library" % (config['username'])
         try:
-            data = json.load(urllib2.urlopen(url))
+            data = requests.get(url).json()
         except ValueError:
             raise plugin.PluginError('Error getting list from hummingbird.')
 
